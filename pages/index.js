@@ -20,7 +20,7 @@ export default function FormPage() {
 
   useEffect(() => {
     // Google フォームの送信後ページを検知して自動リダイレクト
-    if (typeof window !== "undefined" && window.location.href.includes("viewform")) {
+    if (typeof window !== "undefined" && window.location.href.includes("formResponse")) {
       setTimeout(() => {
         router.push("/thank-you"); // 1秒後に送信完了ページへリダイレクト
       }, 1000);
