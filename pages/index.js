@@ -18,6 +18,15 @@ export default function FormPage() {
     setFormURL(`${baseURL}?usp=pp_url&entry.1072212678=${couponCode}`);
   }, [router.isReady, router.query]);
 
+  useEffect(() => {
+    // Google フォームの送信後ページを検知して自動リダイレクト
+    if (typeof window !== "undefined" && window.location.href.includes("viewform")) {
+      setTimeout(() => {
+        router.push("/thank-you"); // 1秒後に送信完了ページへリダイレクト
+      }, 1000);
+    }
+  }, []);
+
   return (
     <div style={styles.container}>
       <div style={styles.iframeWrapper}>
