@@ -3,26 +3,31 @@ import { useRouter } from "next/router";
 
 export default function FormPage() {
   const router = useRouter();
-  const { coupon } = router.query;
   const [formURL, setFormURL] = useState("");
 
   useEffect(() => {
-    const baseURL = "https://docs.google.com/forms/d/e/1FAIpQLSeNunnIpy_HVrEJ1JChSoOQcNHVz8fjmuXGpZD9kMefz6MYEA/viewform";
-    const couponCode = coupon || "000000";
+    if (!router.isReady) return; // クエリパラメータが準備できていない場合は処理しない
+
+    const baseURL =
+      "https://docs.google.com/forms/d/e/1FAIpQLSeNunnIpy_HVrEJ1JChSoOQcNHVz8fjmuXGpZD9kMefz6MYEA/viewform";
+    
+    // クエリパラメータからクーポンコードを取得（デフォルト値 000000）
+    const couponCode = router.query["entry.1072212678"] || "000000";
+    
+    // クーポンコードを含めたURLをセット
     setFormURL(`${baseURL}?usp=pp_url&entry.1072212678=${couponCode}`);
-  }, [coupon]);
+  }, [router.isReady, router.query]);
 
   return (
     <div style={styles.container}>
-      {/* ❌ ここにあった h1 や p を削除 */}
       <div style={styles.iframeWrapper}>
-        {formURL && <iframe src={formURL} style={styles.iframe}></iframe>}
+        {formURL && <iframe src={formURL} style={styles.iframe} />}
       </div>
     </div>
   );
 }
 
-// スタイルオブジェクト
+// スタイル
 const styles = {
   container: {
     textAlign: "center",
